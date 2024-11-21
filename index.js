@@ -40,7 +40,7 @@ app.post("/api/auth/signup", async (req, res) => {
 app.post("/api/auth/login", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ error: "not valid input" });
+    return res.status(400).json({ error: "Email and password are required" });
   }
   const user = await prisma.user.findUnique({
     where: {
@@ -53,7 +53,7 @@ app.post("/api/auth/login", async (req, res) => {
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) {
-    return res.status(401).json({ error: "wrongpassword" });
+    return res.status(401).json({ error: "Invalid credentials" });
   }
 
   const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
