@@ -38,8 +38,8 @@ app.post("/api/auth/signup", async (req, res) => {
 });
 
 app.post("/api/auth/login", async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const { email, password } = req.body;
+  if (!email || !password) {
     return res.status(400).json({ error: "not valid input" });
   }
   const user = await prisma.user.findUnique({
