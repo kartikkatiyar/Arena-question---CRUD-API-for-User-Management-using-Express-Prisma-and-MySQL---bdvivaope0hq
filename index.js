@@ -48,12 +48,12 @@ app.post("/api/auth/login", async (req, res) => {
     },
   });
   if (!user) {
-    return res.status(400).json({ error: "Email not found" });
+    return res.status(400).json({ error: "Email and password are required" });
   }
 
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) {
-    return res.status(400).json({ error: "wrongpassword" });
+    return res.status(401).json({ error: "wrongpassword" });
   }
 
   const accessToken = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
